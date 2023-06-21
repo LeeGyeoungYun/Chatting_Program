@@ -53,7 +53,7 @@ public class BoardTests {
     void delete() {
 
         // 1. 게시글 조회
-        Board entity = boardRepository.findById((long) 1).get();
+        Board entity = boardRepository.findById((long) 4).get();
 
         // 2. 게시글 삭제
         boardRepository.delete(entity);
