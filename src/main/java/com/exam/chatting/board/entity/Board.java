@@ -56,5 +56,13 @@ public class Board {
         this.hits = hits;
         this.deleteYn = deleteYn;
     }
+    
+    //Entity 클래스에 게시물 수정 기능 -> update()메소드 생성
+    public void update(String title, String content, String writer) {
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+        this.modifiedDate = LocalDateTime.now();
+    }
 
 }
