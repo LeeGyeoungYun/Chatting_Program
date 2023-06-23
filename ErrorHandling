@@ -21,8 +21,28 @@
    (단, 데이터 데이터 초기화 기술을 섞는 것을 추천하지는 않는다고 되어있다.)
    
        즉, application.properties 에 spring.jpa.defer-datasource-initialization=true 를 추가시켜주면 된다.
+       
+       아니면 이클립스 상단 메뉴에 Project -> Clean 들어가서 해당 프로젝트를 클린시켜서 실행시키면 됨. 빌드가 꼬여서 실행이 안된걸수도 있음. Clean을 통해
+       빌드가 꼬인걸 풀어주는 역할을 함.
    
    
 2. 스프링 부트가 어떠한 에러도 없이 실행이 안되었을 경우
 
 	->여러가지 원인과 해결방법이 있곘지만 나같은 경우에는 build.gradle을 리프레쉬후 스프링부트를 실행시켰을때 정상적으로 작동하였다.
+	
+	
+3. build.gradle 파일에 implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' 와
+   implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' 해당 라이브러리를 추가 시켰는데도 뷰페이지에 레이아웃이 적용이 안되는 상황이 발생함.
+       혹시아웃페이지가 문제가 있나 확인했는데 그건 아닌듯함. 
+       
+       내 추측상 
+   layout:decorater="layout"
+	
+       이 부분에 문제가 있다 생각하고있음. 위 문장을 써서 적용이 되어야만 레이아웃이 적용이 될텐데 적용이 안되고 있음. 해결해야함
+   
+   -> 좀 찾아본 결과 thymeleaf 3.0버전부터는   decorater 대신 decorate로 바뀌었다함.
+        결과적으로 layout:decorate="~{layout}" 이렇게 선언해줘야한다함. 
+        하지만, 이방법을 사용했는데도 불구하고 레이아웃 적용이 되질 않았음.
+        
+    
+          
