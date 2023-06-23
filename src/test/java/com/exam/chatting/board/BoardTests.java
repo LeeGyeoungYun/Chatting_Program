@@ -33,7 +33,7 @@ public class BoardTests {
         boardRepository.save(params);
 
         // 3. 1번 게시글 정보 조회
-        Board entity = boardRepository.findById((long) 1).get();
+        Board entity = boardRepository.findById((long) 7).get();
         assertThat(entity.getTitle()).isEqualTo("1번 게시글 제목");
         assertThat(entity.getContent()).isEqualTo("1번 게시글 내용");
         assertThat(entity.getWriter()).isEqualTo("도뎡이");

@@ -23,4 +23,6 @@
        즉, application.properties 에 spring.jpa.defer-datasource-initialization=true 를 추가시켜주면 된다.
    
    
-2. 
+2. 스프링 부트가 어떠한 에러도 없이 실행이 안되었을 경우
+
+	->여러가지 원인과 해결방법이 있곘지만 나같은 경우에는 build.gradle을 리프레쉬후 스프링부트를 실행시켰을때 정상적으로 작동하였다.
