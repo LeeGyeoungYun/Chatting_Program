@@ -44,5 +44,12 @@
         결과적으로 layout:decorate="~{layout}" 이렇게 선언해줘야한다함. 
         하지만, 이방법을 사용했는데도 불구하고 레이아웃 적용이 되질 않았음.
         
+    -> 결과적으로 타임리프 뷰페이지에 레이아웃을 적용하기 위해선 
+    1. implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    2. implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    3. 위 두개를 gradle에 라이브러리를 추가시켜주고 gradle을 업데이트 해줍니다. 
+    4. 그 후, 해당페이지에 레이아웃을 적용시키고 싶다면 <html> 부분에 layout:decorate="~{레아아웃뷰페이지위치/레이아웃페이지}" 이렇게 선언해주면 적용이 되는 모습을 볼 수 있습니다.
     
+    
+4.  
           
