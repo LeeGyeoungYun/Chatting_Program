@@ -22,7 +22,8 @@ public class BoardPageController {
         return "board/write";
     }
     
-  
+    
+    //실험용 레이아웃 페이지
     @GetMapping("/layout")
     public String layoutTest() {
         return "layout";
