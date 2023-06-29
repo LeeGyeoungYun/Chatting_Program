@@ -64,5 +64,15 @@ public class Board {
         this.writer = writer;
         this.modifiedDate = LocalDateTime.now();
     }
+    
+    //게시물 조회수 증가 기능
+    public void increaseHits() {
+        this.hits++;
+    }
+
+    //게시물 삭제 기능
+    public void delete() {
+        this.deleteYn = 'Y';
+    }
 
 }

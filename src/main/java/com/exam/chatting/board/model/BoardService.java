@@ -51,5 +51,23 @@ public class BoardService {
         entity.update(params.getTitle(), params.getContent(), params.getWriter());
         return id;
     }
+    
+    // 게시글 삭제
+    @Transactional
+    public Long delete(final Long id) {
+
+        Board entity = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+        entity.delete();
+        return id;
+    }
+    
+    // 게시글 상세조회 기능
+    @Transactional
+    public BoardResponseDto findById(final Long id) {
+
+        Board entity = boardRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.POSTS_NOT_FOUND));
+        entity.increaseHits();
+        return new BoardResponseDto(entity);
+    }
 
 }
