@@ -71,12 +71,12 @@
 
 	//게시글 등록(생성/수정)
 	function save() {
-	
+				
 		if ( !isValid() ) {
 			return false;
 		}
 	
-		const form = document.getElementById('form');
+		const form = document.getElementById('form');	
 		const params = {
 			title: form.title.value,
 			writer: form.writer.value,
@@ -84,13 +84,16 @@
 			deleteYn: 'N'
 		};
 		
+				
+		const id = [[ ${id} ]];
+		const uri = ( id ) ? `/api/boards/${id}` : '/api/boards';
+		const method = ( id ) ? 'PATCH' : 'POST';
+		
 		//list.html의 findAll() 함수처럼, 단순히 데이터를 조회하는 경우에는 fetch()함수에 url만 인자로 전달해 주면되지만, 
 		//Get 방식이 아닌 그외, POST, PUT, PATCH, DELETE등의 요청에는 필수적으로 옵션(method,headers,body등)을 전달해줘야만 합니다.
-		fetch('/api/boards', { 
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
+		fetch(uri, {
+			method: method,
+			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(params)
 	
 		}).then(response => {
@@ -104,6 +107,39 @@
 		}).catch(error => {
 			alert('오류가 발생하였습니다.');
 		});
+	}
+	
+	window.onload = () => {
+	    findBoard();
+	}
+
+	/**
+	 * 게시글 조회
+	 */
+	function findBoard() {
+
+	    const id = [[ ${id} ]];
+
+	    if ( !id ) {
+	    	return false;
+	    }
+
+	    fetch(`/api/boards/${id}`).then(response => {
+	    	if (!response.ok) {
+				throw new Error('Request failed...');
+		    }
+	    	return response.json();
+
+	   	}).then(json => {
+	   		const form = document.getElementById('form');
+	   		form.title.value = json.title;
+	   		form.content.value = json.content;
+	   		form.writer.value = json.writer;
+
+	   	}).catch(error => {
+	    	alert('게시글 정보를 찾을 수 없습니다.');
+	    	location.href = '/board/list';
+	   	});
 	}
 
 	/*]]>*/

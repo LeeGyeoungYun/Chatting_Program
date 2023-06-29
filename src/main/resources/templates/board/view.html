@@ -47,56 +47,50 @@
 /*<![CDATA[*/
 
     	window.onload = () => {
-     		findBoard();
-  	}
+   			 findBoard();
+		}
 
-      /**
-       * 게시글 조회
-       */
-      function findBoard() {
+		// 게시글 조회
+		function findBoard() {
+			
+		    const id = [[${id}]];		    
+			console.log(id);
+			
+		    if ( !id ) {
+		    	return false;
+		    }
+		
+		    fetch(`/api/boards/${id}`).then(response => {
+		    	if (!response.ok) {
+					throw new Error('Request failed...');
+			    }
+		    	return response.json();		    	
+		
+		   	}).then(json => {
+		   		
+		   		document.getElementById('title').innerText = json.title;
+		   		document.getElementById('content').innerText = json.content;
+		   		document.getElementById('writer').innerText = json.writer;
+		   		document.getElementById('createdDate').innerText = json.createdDate;
+		   		document.getElementById('hits').innerText = json.hits;
+		
+		   	}).catch(error => {
+		    	alert('게시글 정보를 찾을 수 없습니다.');
+		    	location.href = '/board/list';
+		   	});
+		}
 
-          const id = /*[[ ${id} ]]*/;
-
-          fetch(`/api/boards/${id}`).then(response => {
-          	if (!response.ok) {
-      			throw new Error('Request failed...');
-      	    }
-          	return response.json();
-
-         	}).then(json => {
-         		console.table(json);
-          	json.createdDate = moment(json.createdDate).format('YYYY-MM-DD HH:mm:ss');
-
-          	Object.keys(json).forEach(key => {
-           		const elem = document.getElementById(key);
-           		if (elem) {
-            			elem.innerText = json[key];
-           		}
-          	});
-
-         	}).catch(error => {
-          	alert('게시글 정보를 찾을 수 없습니다.');
-          	goList();
-         	});
-      }
-
-      /**
-       * 뒤로가기
-       */
+      // 뒤로가기
       function goList() {
       	location.href = '/board/list';
       }
 
-      /**
-       * 수정하기
-       */
+      // 수정하기
       function goWrite() {
       	location.href = `/board/write?id=[[ ${id} ]]`;
       }
 
-      /**
-       * 삭제하기
-       */
+      // 삭제하기
       function deleteBoard() {
 
       	const id = /*[[ ${id} ]]*/;
