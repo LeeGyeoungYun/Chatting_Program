@@ -34,11 +34,11 @@ public class BoardService {
     }
 
     // 게시글 리스트 조회   
-    public List<BoardResponseDto> findAll() {
+    public List<BoardResponseDto> findAllByDeleteYn(final char deleteYn)  {
     	
     	//sort 객체는 ORDER BY id DESC, created_date DESC를 의미합니다.
         Sort sort = Sort.by(Direction.DESC, "id", "createdDate");
-        List<Board> list = boardRepository.findAll(sort);
+        List<Board> list = boardRepository.findAllByDeleteYn(deleteYn, sort);
         return list.stream().map(BoardResponseDto::new).collect(Collectors.toList());
     }
 
