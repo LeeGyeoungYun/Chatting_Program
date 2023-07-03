@@ -40,7 +40,7 @@ public class DatabaseConfig {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource());
-        // factoryBean.setMapperLocations(context.getResources("classpath:/mappers/**/*Mapper.xml"));
+        factoryBean.setMapperLocations(context.getResources("classpath:/mappers/**/*Mapper.xml"));//XML Mapper를 생성했으니, MyBatis가 XML Mapper를 읽을 수 있도록 해주어야 합니다.
         return factoryBean.getObject();
     }
     

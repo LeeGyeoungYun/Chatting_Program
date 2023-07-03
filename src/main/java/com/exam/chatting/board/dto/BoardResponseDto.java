@@ -4,9 +4,12 @@ import java.time.LocalDateTime;
 
 import com.exam.chatting.board.entity.Board;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardResponseDto { //게시판 응답(Response) DTO 클래스
 
     private Long id; // PK

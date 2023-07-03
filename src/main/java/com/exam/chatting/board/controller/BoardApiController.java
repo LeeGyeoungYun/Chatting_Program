@@ -1,6 +1,6 @@
 package com.exam.chatting.board.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.exam.chatting.board.dto.BoardRequestDto;
 import com.exam.chatting.board.dto.BoardResponseDto;
 import com.exam.chatting.board.model.BoardService;
+import com.exam.chatting.paging.CommonParams;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,8 +33,8 @@ public class BoardApiController {
 
     // 게시글 리스트 조회   
     @GetMapping("/boards")
-    public List<BoardResponseDto> findAll(@RequestParam final char deleteYn) {
-        return boardService.findAllByDeleteYn(deleteYn);
+    public Map<String, Object> findAll(final CommonParams params) {
+        return boardService.findAll(params);
     }
 
     // 게시글 수정 
