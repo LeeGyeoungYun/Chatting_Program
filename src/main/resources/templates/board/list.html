@@ -58,8 +58,11 @@
 		
 		//페이지 로딩 시점에 실행되는 함수		
 		window.onload = () => {
-			findAll(1);
+			
+			setQueryStringParams();
+			findAll();
 			addEnterSearchEvent();
+
 		}
 		
 		
@@ -91,49 +94,73 @@
 
 			return await response.json();
 		}
+		
+		
+		// 쿼리 스트링 파라미터 셋팅
+		function setQueryStringParams() {
+
+			if ( !location.search ) {
+				return false;
+			}
+
+			const form = document.getElementById('searchForm');
+
+			new URLSearchParams(location.search).forEach((value, key) => {
+				if (form[key]) {
+					form[key].value = value;
+				}
+			});
+		}
 
 
 		
 		//게시글 리스트 조회		
 		function findAll(page) {
-
-		const form = document.getElementById('searchForm');
-		const params = {
-			  page: page
-			, recordPerPage: 10
-			, pageSize: 10
-			, searchType: form.searchType.value
-			, keyword: form.keyword.value
-		}
-
-		getJson('/api/boards', params).then(response => {
-			if (!Object.keys(response).length) {
-				document.getElementById('list').innerHTML = '<td colspan="5">등록된 게시글이 없습니다.</td>';
-				drawPages();
-				return false;
+			
+			const pageParam = Number(new URLSearchParams(location.search).get('page'));
+			page = (page) ? page : ((pageParam) ? pageParam : 1);
+			
+			const form = document.getElementById('searchForm');
+			const params = {
+				  page: page
+				, recordPerPage: 5
+				, pageSize: 10
+				, searchType: form.searchType.value
+				, keyword: form.keyword.value
 			}
-
-			let html = '';
-			let num = response.params.pagination.totalRecordCount - ((response.params.page - 1) * response.params.recordPerPage);
-
-       		response.list.forEach((obj, idx) => {
-       			html += `
-       				<tr>
-  						<td>${num--}</td>
-  						<td class="text-left">
-  							<a href="javascript: void(0);" onclick="goView(${obj.id})">${obj.title}</a>
-  						</td>
-  						<td>${obj.writer}</td>
-  						<td>${moment(obj.createdDate).format('YYYY-MM-DD HH:mm:ss')}</td>
-  						<td>${obj.hits}</td>
-       				</tr>
-       			`;
-       		});
-
-			document.getElementById('list').innerHTML = html;
-			drawPages(response.params);
-		});
-	}
+		
+			const queryString = new URLSearchParams(params).toString();
+		    const replaceUri = location.pathname + '?' + queryString;
+		    history.replaceState({}, '', replaceUri);
+		
+			getJson('/api/boards', params).then(response => {
+				if (!Object.keys(response).length) {
+					document.getElementById('list').innerHTML = '<td colspan="5">등록된 게시글이 없습니다.</td>';
+					drawPages();
+					return false;
+				}
+		
+				let html = '';
+				let num = response.params.pagination.totalRecordCount - ((response.params.page - 1) * response.params.recordPerPage);
+		
+		   		response.list.forEach((obj, idx) => {
+		   			html += `
+		   				<tr>
+								<td>${num--}</td>
+								<td class="text-left">
+									<a href="javascript: void(0);" onclick="goView(${obj.id})">${obj.title}</a>
+								</td>
+								<td>${obj.writer}</td>
+								<td>${moment(obj.createdDate).format('YYYY-MM-DD HH:mm:ss')}</td>
+								<td>${obj.hits}</td>
+		   				</tr>
+		   			`;
+		   		});
+		
+				document.getElementById('list').innerHTML = html;
+				drawPages(response.params);
+			});
+		}
 
 		// 게시글 조회
 		function goView(id) {
