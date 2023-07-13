@@ -1,0 +1,13 @@
+1. 이클립스 안에서 자바스크립트의 타이핑 색깔이 흑백일경우 색상 변경을 원한다면?
+
+-> 이클립스 Window -> Preference -> General태그안에 Editors 안에 File Associations로 들어가 
+	File Type안에 .js가 있는지 확인 만약 없다면 옆 add를 눌러 .js 적고 생성. 
+	이후, 이클립스 상단에 있는 Help -> Install New Software... 
+	-> Add를 눌러 주소창에  http://download.eclipse.org/releases/photon 넣기
+	-> Web, XML, Java EE and OSGi Enterprise Development 탭안에     JavaScript Development Tools	선택후 다운
+	-> 이클립스 재실행후, 다시 Window -> Preference -> General태그안에 Editors 안에 File Associations로 들어가 .js클릭
+	-> 아래 칸에보면 JavaScript Editor를 default로 변경해주면 색상을 입힐 수 있게됩니다.
+	
+	참고자료 : https://ysyeee.tistory.com/18
+	
+2. 
