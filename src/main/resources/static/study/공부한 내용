@@ -46,7 +46,9 @@
 		        
 		        
 		    -> ex) @GetMapping("/user/{email}")  (X)
-		           @GetMapping("/user/{email:.+"/) (O)
+		           @GetMapping("/user/{email:.+"}) (O)
+		           
+		           @GetMapping("/user/{email:.+}/}) -> 만약 위 방식이 안된다면 다음과 같이하면됨. 
 		           
 		          
 5.
