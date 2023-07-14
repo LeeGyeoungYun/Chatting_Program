@@ -10,4 +10,45 @@
 	
 	참고자료 : https://ysyeee.tistory.com/18
 	
-2. 
+	
+2. An error has occurred. See error log for more details.com.ibm.icu.text.UTF16.isSurrogate(C)Z  오류발생
+
+-> 해당 오류는 Eclipse IDE에 맞지 않는 버전의 Spring Tools 플러그인을 추가했을 경우 생기는 오류입니다. 최근에 추가한 플러그인이 무엇인지 확인
+
+
+3. Uncaught ReferenceError: submit is not defined at HTMLButtonElement.onclick 오류
+
+-> input이든 button이든 태그안에  onclick 이벤트 핸들러는 전역(global)함수만 찾기 때문에 함수를 찾을 수 없다는 오류가 간혹 발생한다.
+      때문에 id나 class를 활용해 이벤트 처리 함수를 호출하는게 좋습니다.
+   ex) html  -> <button id="buttonBtn" onclick="submit()">버튼</button>  => (X) 잘못된예시
+       
+       html  ->	<button id="buttonBtn">버튼</button> => (O) 잘된 예시
+	   JS    -> document.getElementById('buttonBtn').addEventListener("click",submit);
+	   
+	   			funtion submit(){
+	   				// 함수 내용들
+	   			}
+	   			
+	   			
+4. 회원가입시 해당 이메일이 이미 사용되고있는 곳이 있는지 확인하기위해 REST API 방식으로 해당 메일값을 보내 유저정보가 있는지 확인할때 에러
+			
+			< 스프링이 .을 기준으로 url을 인식 오류 발생 >    
+			
+	문제발생 : 회원가입시 해당 이메일이 사용되고 있으면 회원가입이 안되게 처리 하였음
+	                 그 과정에서 해당 이메일을 DB에서 조회해야했고 REST방식으로 일을 처리하려고함
+	                 컨트롤러에서 JSP에서 보낸 이메일을 @PathVariable을 통해 받는 과정에서 
+		        이메일중 도메인 부분 ex) naver.com 중 마침표를 포함한 " .com " 부분이 잘려들어오는 상황이 발생
+		        때문에 해당 이메일을 가지고 있는 db를 조회할때 exam@naver 만 where 절에 들어가 값이 제대로 출력이 안되는 상황이 발생.
+		        
+	해결방안 : 	해당 문제는 @PathVariable을 통해 이메일을 보낼때 . 을 String 즉, 문자열중 하나인 문자로 판단하는것이 아닌 
+		        확장자로써 인식이되어 .을 포함한 이후의 것을 잘라서 보내졌기때문에 발생된 오류였음. 즉, 근본적인 해결방안으로써 .을 확장자로 인식하지 못하게
+		        할 필요가 있음. 따라서 다음과 같이 표기하면 해당 문제를 해결할 수 있음.
+		        
+		        
+		    -> ex) @GetMapping("/user/{email}")  (X)
+		           @GetMapping("/user/{email:.+"/) (O)
+		           
+		          
+5.
+	        
+	           			
