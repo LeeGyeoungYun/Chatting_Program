@@ -60,4 +60,35 @@
 	ex) <a href="#" onclick="function2();">함수2</a>
 	
 	        
-	           			
+6. 게시판 제작 도중 mariaDB안에 있는 데이터를 꺼내는 와중에 view 단에서 한글이 인코딩이 되지않아 ???로 뜨는 현상이 발생했을때 해결방안
+
+	문제발생 : 나의 경우엔 마리아DB안엔 한글로된 데이터가 정상적으로 들어와있었지만 이것을 JSP단에 출력을할때 한글이 인코딩되지않아 ???로 떴었다.
+			그래서 먼저 JSP부분을 보았다. JSP 맨위에  <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>확인.
+			그다음 head부분에  <meta charset="utf-8"> 이 제대로 들어와있는지 확인하였다.
+			그래도 상황이 똑같아 이클립스 환경설정에 문제로 판단. 환경설정에서 General > Content Types > Java Class File 클릭후 맨아래 인코딩란에 UTF-8 적용
+			그 후 다른 html, css, jsp, xml, workspace 등등 다 UTF-8로 적용.
+			변화 확인해봤지만 똑같았다. 그래서 서버 문제로 판단 -> 톰캣에 server.xml에서 Connector 부분에  URIEncoding="UTF-8"로 적용후 서버 재가동
+			-> 똑같음.
+			혹시나해서 개발자도구를 열어 rest api를 이용해 데이터를 받아올때의 해당 네트워크 응답헤더를 확인해봄.
+			그런데 응답헤더에  Content-Type이 application/json;charset=ISO 뭐시기가 들어온것을 확인함.
+	
+	해결방안 : 즉, 저 응답헤더에 Content-Type을 application/json;charset=UTF-8으로 바꿔야만 한글이 인코딩되어 ???가 아닌 정상적으로 출력되게됨.
+			서버단 즉, 컨트롤러부분에 ResponseEntity를 통해 값을 응답할때, Header부분을 작성하여 포함시켜 보내면되는것을 깨달음.
+			
+				ex)	// 게시판 조회
+					@GetMapping("/boards")
+					public ResponseEntity<String> getAllBoards(){	
+						String allBoards = this.boardService.getAllboards(); //게시물 객체정보들
+						HttpHeaders resHeaders = new HttpHeaders();
+					    resHeaders.add("Content-Type", "application/json;charset=UTF-8");
+						System.out.println(allBoards);
+						return new ResponseEntity<>(allBoards,resHeaders,HttpStatus.OK);
+					}  
+					
+			다음과 같이 Header 객체를 선언. 그 후 Content-Type을 UTF-8을 추가후 반환 -> 정상적으로 작동하게 됨.
+			
+			참고자료 : https://m.blog.naver.com/tonguck/221825624110
+
+			
+7.
+	       			
